@@ -60,4 +60,4 @@ output = mpv(currentshow)
 #Basic recursion.
 while True:
     if output.endswith("Exiting... (End of file)\r\n"):
-        mpv()
+        mpv(currentshow)
