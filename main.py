@@ -17,10 +17,10 @@ print(videosinput)
 currentshow = videosinput[random.randrange(0,len(videosinput))]
 
 #for i in range(len(videosinput)-1):
-#	currentshow = videosinput[i]
-#	i = i+1
-#	continue
-#	currentshow = currentshow + videosinput[i]
+#    currentshow = videosinput[i]
+#    i = i+1
+#    continue
+#    currentshow = currentshow + videosinput[i]
 
 #Video properties.
 vid = cv2.VideoCapture(currentshow)
@@ -61,7 +61,7 @@ output = mpv(currentshow)
 while True:
     if output.endswith("Exiting... (End of file)\r\n"):
         mpv(currentshow)
-	if output.endswith("Exiting... (Quit)"):
-		os.system("taskkill /IM mpv.exe /F")
-
-	
+    if output.endswith("Exiting... (Quit)"):
+        os.system("taskkill /IM mpv.exe /F")
+    
+    
