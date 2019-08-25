@@ -33,8 +33,9 @@ length = fcount / fps
 #Logo properties.
 logoimage = 'custom/' + conf.logoimage
 logofraction = 15 / conf.logosize #Logo size will be 1/logofraction of video width.
-offsetnumerator = 63
-offsetdenominator = 64 #Logo will be set into the video by offsetnumerator/offsetdenominator pixels relative to video width.
+insetfraction = conf.insetfraction.split("/")
+offsetdenominator = float(insetfraction[1]) #Logo will be set into the video by offsetnumerator/offsetdenominator pixels relative to video width.
+offsetnumerator = offsetdenominator - float(insetfraction[0])
 logosize = width / logofraction
 pixelsoff = width - ((width / offsetdenominator) * offsetnumerator)
 logox = width - pixelsoff - logosize
@@ -42,17 +43,18 @@ logoy = height - pixelsoff - logosize
 
 print(f"FPS: {fps}\nFCOUNT: {fcount}\nLENGTH: {length}s ({length/60}m)")
 
-def mpv():
-	#Create mpv command.
-	process = subprocess.Popen(f'mpv/mpv -fs --lavfi-complex="[vid2] scale={logosize}:{logosize},format=rgba,colorchannelmixer=aa={conf.logoopacity} [logo],[vid1][logo] overlay=x={logox}:y={logoy} [vo]" {currentshow} --external-file={logoimage}',
-		stdout=subprocess.PIPE)
-	out, err = process.communicate()
+def mpv(passedfile):
+    #Create mpv command.
+    process = subprocess.Popen(f'mpv/mpv -fs -track-auto-selection= --lavfi-complex="[vid2] scale={logosize}:{logosize},format=rgba,colorchannelmixer=aa={conf.logoopacity} [logo],[vid1][logo] overlay=x={logox}:y={logoy} [vo]" {passedfile} --external-file={logoimage}',
+    stdout=subprocess.PIPE)
+    out, err = process.communicate()
 
-	#Print mpv command results.
-	print(out.decode("utf-8"))
-	return(out.decode("utf-8"))
+    #Print mpv command results.
+    print(out.decode("utf-8"))
+    return(out.decode("utf-8"))
 
-output = mpv()
+output = mpv(currentshow)
 
-if output.endswith("Exiting... (End of file)"):
-	mpv()
+while True:
+    if output.endswith("Exiting... (End of file)\r\n"):
+        mpv()

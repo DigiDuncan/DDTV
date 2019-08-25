@@ -1,4 +1,8 @@
 commercials/*
 custom/*
 videos/*
+!commercials/goodadvice.mp4
+!custom/DDHQ.png
+!videos/t4.mp4
+!videos/loop.mp4
 *.pyc
