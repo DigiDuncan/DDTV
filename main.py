@@ -6,14 +6,21 @@ import time
 import conf
 import random
 
-#Grab all possible videos from /videos directory
+#Grab all possible videos 
 videosinput = []
 for root, dirs, files in os.walk(r'videos/'):
-	for file in files:
-		videosinput.append('videos/' + file)
+    for file in files:
+        videosinput.append('videos/' + file)
+for root, dirs, files in os.walk(r'commercials/'):
+    for file in files:
+        videosinput.append('commercials/' + file)
 
+#Randomize video order
+random.shuffle(videosinput)
+        
 #Pick a video to be played
-currentshow = videosinput[random.randrange(0,len(videosinput))]
+queueposition = 0
+currentshow = videosinput[queueposition]
 
 #Video properties.
 vid = cv2.VideoCapture(currentshow)
@@ -52,7 +59,9 @@ output = mpv(currentshow)
 
 #Exit code handling.
 while True:
-    if output.endswith("Exiting... (End of file)\r\n"):
+    if output.endswith("Exiting... (End of file)\r\n"): 
+        queueposition = queueposition + 1
+        currentshow = videosinput[queueposition]
         mpv(currentshow)
 while True:    
     if output.endswith("Exiting... (Quit)"):
