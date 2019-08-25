@@ -61,3 +61,7 @@ output = mpv(currentshow)
 while True:
     if output.endswith("Exiting... (End of file)\r\n"):
         mpv(currentshow)
+
+while True:
+	if output.endswith("Exiting... (Quit)"):
+		os.system("taskkill /IM mpv.exe /F")
