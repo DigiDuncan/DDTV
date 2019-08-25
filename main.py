@@ -5,6 +5,7 @@ import cv2
 import time
 import conf
 import random
+
 #Grab all possible videos from /videos directory
 videosinput = []
 for root, dirs, files in os.walk(r'videos/'):
@@ -14,6 +15,13 @@ print(videosinput)
 
 #Pick a video to be played
 currentshow = videosinput[random.randrange(0,len(videosinput))]
+
+#for i in range(len(videosinput)-1):
+#	currentshow = videosinput[i]
+#	i = i+1
+#	continue
+#	currentshow = currentshow + videosinput[i]
+	
 
 #Video properties.
 vid = cv2.VideoCapture(currentshow)
@@ -36,10 +44,19 @@ logoy = height - pixelsoff - logosize
 
 print(f"FPS: {fps}\nFCOUNT: {fcount}\nLENGTH: {length}s ({length/60}m)")
 
-#Create mpv command.
-process = subprocess.Popen(f'mpv/mpv -fs --lavfi-complex="[vid2] scale={logosize}:{logosize},format=rgba,colorchannelmixer=aa={conf.logoopacity} [logo],[vid1][logo] overlay=x={logox}:y={logoy} [vo]" {currentshow} --external-file={logoimage}',
-    stdout=subprocess.PIPE)
-out, err = process.communicate()
+def mpv():
+	#Create mpv command.
+	process = subprocess.Popen(f'mpv/mpv -fs --lavfi-complex="[vid2] scale={logosize}:{logosize},format=rgba,colorchannelmixer=aa={conf.logoopacity} [logo],[vid1][logo] overlay=x={logox}:y={logoy} [vo]" {currentshow} --external-file={logoimage}',
+		stdout=subprocess.PIPE)
+	out, err = process.communicate()
+	
+	#Print mpv command results.
+	print(out.decode("utf-8"))
+	return(out.decode("utf-8"))
 
-#Print mpv command results.
-print(out.decode("utf-8"))
+output = mpv()
+
+if output.endswith("Exiting... (End of file)"):
+	mpv()
+	
+
