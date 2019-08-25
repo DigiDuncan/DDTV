@@ -29,7 +29,7 @@ width = vid.get(cv2.CAP_PROP_FRAME_WIDTH)
 fcount = vid.get(cv2.CAP_PROP_FRAME_COUNT)
 fps = vid.get(cv2.CAP_PROP_FPS)
 length = fcount / fps
-
+        
 #Logo properties.
 logoimage = 'custom/' + conf.logoimage
 logofraction = 15 / conf.logosize #Logo size will be 1/logofraction of video width.
@@ -62,6 +62,16 @@ while True:
     if output.endswith("Exiting... (End of file)\r\n"): 
         queueposition = queueposition + 1
         currentshow = videosinput[queueposition]
+        vid = cv2.VideoCapture(currentshow)
+        height = vid.get(cv2.CAP_PROP_FRAME_HEIGHT)
+        width = vid.get(cv2.CAP_PROP_FRAME_WIDTH)
+        insetfraction = conf.insetfraction.split("/")
+        offsetdenominator = float(insetfraction[1]) 
+        offsetnumerator = offsetdenominator - float(insetfraction[0])
+        logosize = width / logofraction
+        pixelsoff = width - ((width / offsetdenominator) * offsetnumerator)
+        logox = width - pixelsoff - logosize
+        logoy = height - pixelsoff - logosize
         mpv(currentshow)
 while True:    
     if output.endswith("Exiting... (Quit)"):
