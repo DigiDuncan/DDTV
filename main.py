@@ -9,18 +9,11 @@ import random
 #Grab all possible videos from /videos directory
 videosinput = []
 for root, dirs, files in os.walk(r'videos/'):
-    for file in files:
-        videosinput.append('videos/' + file)
-print(videosinput)
+	for file in files:
+		videosinput.append('videos/' + file)
 
 #Pick a video to be played
 currentshow = videosinput[random.randrange(0,len(videosinput))]
-
-#for i in range(len(videosinput)-1):
-#    currentshow = videosinput[i]
-#    i = i+1
-#    continue
-#    currentshow = currentshow + videosinput[i]
 
 #Video properties.
 vid = cv2.VideoCapture(currentshow)
@@ -61,7 +54,6 @@ output = mpv(currentshow)
 while True:
     if output.endswith("Exiting... (End of file)\r\n"):
         mpv(currentshow)
+while True:    
     if output.endswith("Exiting... (Quit)"):
         os.system("taskkill /IM mpv.exe /F")
-    
-    
