@@ -43,6 +43,7 @@ logoy = height - pixelsoff - logosize
 
 print(f"FPS: {fps}\nFCOUNT: {fcount}\nLENGTH: {length}s ({length/60}m)")
 
+#Play a video.
 def mpv(passedfile):
     #Create mpv command.
     process = subprocess.Popen(f'mpv/mpv -fs -track-auto-selection= --lavfi-complex="[vid2] scale={logosize}:{logosize},format=rgba,colorchannelmixer=aa={conf.logoopacity} [logo],[vid1][logo] overlay=x={logox}:y={logoy} [vo]" {passedfile} --external-file={logoimage}',
@@ -53,8 +54,10 @@ def mpv(passedfile):
     print(out.decode("utf-8"))
     return(out.decode("utf-8"))
 
+#Play the first video, and see if it exited on it's own.
 output = mpv(currentshow)
 
+#Basic recursion.
 while True:
     if output.endswith("Exiting... (End of file)\r\n"):
         mpv()
