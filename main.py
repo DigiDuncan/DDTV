@@ -21,7 +21,6 @@ currentshow = videosinput[random.randrange(0,len(videosinput))]
 #	i = i+1
 #	continue
 #	currentshow = currentshow + videosinput[i]
-	
 
 #Video properties.
 vid = cv2.VideoCapture(currentshow)
@@ -41,7 +40,6 @@ pixelsoff = width - ((width / offsetdenominator) * offsetnumerator)
 logox = width - pixelsoff - logosize
 logoy = height - pixelsoff - logosize
 
-
 print(f"FPS: {fps}\nFCOUNT: {fcount}\nLENGTH: {length}s ({length/60}m)")
 
 def mpv():
@@ -49,7 +47,7 @@ def mpv():
 	process = subprocess.Popen(f'mpv/mpv -fs --lavfi-complex="[vid2] scale={logosize}:{logosize},format=rgba,colorchannelmixer=aa={conf.logoopacity} [logo],[vid1][logo] overlay=x={logox}:y={logoy} [vo]" {currentshow} --external-file={logoimage}',
 		stdout=subprocess.PIPE)
 	out, err = process.communicate()
-	
+
 	#Print mpv command results.
 	print(out.decode("utf-8"))
 	return(out.decode("utf-8"))
@@ -58,5 +56,3 @@ output = mpv()
 
 if output.endswith("Exiting... (End of file)"):
 	mpv()
-	
-
