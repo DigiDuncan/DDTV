@@ -10,7 +10,7 @@ import datetime
 now = datetime.datetime.now()
 videosinput = []
 commercialsinput = []
-
+print(now.minute)
 #Grab all "TV shows" 
 for root, dirs, files in os.walk(r'videos/'):
     for file in files:
@@ -66,12 +66,16 @@ def mpv(passedfile):
 output = mpv(currentshow)
 
 #Exit code handling.
-while True:
+while True:    
     if output.endswith("Exiting... (End of file)\r\n"): 
         if now.minute >= 25 and now.minute <= 35:
             commercialqueueposition = commercialqueueposition + 1
             currentshow = commercialsinput[commercialqueueposition]
             mpv(currentshow)
+        if now.minute >= 55 or now.minute <= 5:
+            commercialqueueposition = commercialqueueposition + 1
+            currentshow = commercialsinput[commercialqueueposition]
+            mpv(currentshow)        
         queueposition = queueposition + 1
         currentshow = videosinput[queueposition]
         vid = cv2.VideoCapture(currentshow)
