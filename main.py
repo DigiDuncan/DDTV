@@ -5,21 +5,29 @@ import cv2
 import time
 import conf
 import random
+import datetime
 
-#Grab all possible videos 
+now = datetime.datetime.now()
 videosinput = []
+commercialsinput = []
+
+#Grab all "TV shows" 
 for root, dirs, files in os.walk(r'videos/'):
     for file in files:
         videosinput.append('videos/' + file)
+
+#Grab all "commercials" 
 for root, dirs, files in os.walk(r'commercials/'):
     for file in files:
-        videosinput.append('commercials/' + file)
+        commercialsinput.append('commercials/' + file)
 
 #Randomize video order
 random.shuffle(videosinput)
+random.shuffle(commercialsinput)
         
 #Pick a video to be played
 queueposition = 0
+commercialqueueposition = 0
 currentshow = videosinput[queueposition]
 
 #Video properties.
@@ -60,6 +68,10 @@ output = mpv(currentshow)
 #Exit code handling.
 while True:
     if output.endswith("Exiting... (End of file)\r\n"): 
+        if now.minute >= 25 and now.minute <= 35:
+            commercialqueueposition = commercialqueueposition + 1
+            currentshow = commercialsinput[commercialqueueposition]
+            mpv(currentshow)
         queueposition = queueposition + 1
         currentshow = videosinput[queueposition]
         vid = cv2.VideoCapture(currentshow)
