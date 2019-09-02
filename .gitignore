@@ -6,3 +6,4 @@ videos/*
 !videos/t4.mp4
 !videos/loop.mp4
 *.pyc
+*.m3u8
