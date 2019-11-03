@@ -62,4 +62,17 @@ def getVideoProperties(video):
 
     return{"height": height, "width": width, "length": length, "logosize": logosize, "logox": logox, "logoy": logoy}
 
+def generateBoringPlaylist():
+    videoDict.shuffle()
+    for item in videoDict:
+        playlist += f"videos/{item}\n"
+        #TODO: Write the playlist file.
+    print(playlist)
+
+def generateSpicyPlaylist():
+    queuetime = now = datetime.datetime.now()
+    return
+    #TODO: Generate timed playlist with commercials and short clips.
+
 loadVideos()
+generateBoringPlaylist()
