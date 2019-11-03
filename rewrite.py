@@ -4,7 +4,7 @@
 #Overlay Logo
 #Implement time slots
 
-#Imports 
+#Imports
 import os
 import subprocess
 import youtube_dl
@@ -26,26 +26,24 @@ offsetDenominator = float(insetFraction[1]) #Logo will be set into the video by 
 offsetNumerator = offsetDenominator - float(insetFraction[0])
 enableCommercials = rewriteconf.enableCommercials
 
+def normalizeFilenames(video):
+	if(video.find(' ') != -1):
+			os.rename(video, video.replace(' ', ''))
+
 def loadVideos():
 	#Shows/Movies
 	for root, dirs, files in os.walk(r'videos/'):
 		for file in files:
-			videoDict['videos/' + file] = getVideoProperties('videos/' + file)["length"]
+            path = 'videos/' + file
+            normalizeFilenames(path)
+			videoDict[path] = getVideoProperties(path)["length"]
 	#Commericals
 	if enableCommercials == True:
 		for root, dirs, files in os.walk(r'commercials/'):
 			for file in files:
-				commercialDict['commercials/' + file] = getVideoProperties('commercials/' + file)["length"]
-
-def normalizeFilenames():
-	for key in videoDict:
-		if(key.find(' ') != -1):
-			os.rename(key, key.replace(' ', ''))	
-	
-	if enableCommercials == True:			
-		for key in commercialDict:
-			if(key.find(' ') != -1):
-				os.rename(key, key.replace(' ', ''))
+                path = 'commercials/' + file
+                normalizeFilenames(path)
+				commercialDict[path] = getVideoProperties(path)["length"]
 
 def getVideoProperties(video):
     #Current video properties.
@@ -65,8 +63,3 @@ def getVideoProperties(video):
     return{"height": height, "width": width, "length": length, "logosize": logosize, "logox": logox, "logoy": logoy}
 
 loadVideos()
-normalizeFilenames()
-
-	
-	
-	
