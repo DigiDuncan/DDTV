@@ -1,0 +1,2 @@
+python rewrite.py
+pause
