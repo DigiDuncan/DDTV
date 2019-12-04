@@ -1,3 +1,3 @@
-python filenames.py
-python main.py
+py filenames.py
+py main.py
 pause

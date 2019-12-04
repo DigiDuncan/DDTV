@@ -1,2 +1,2 @@
-python rewrite.py
+py rewrite.py
 pause
